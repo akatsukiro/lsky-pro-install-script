@@ -153,7 +153,7 @@ download_lsky() {
     mkdir -p /var/www/lsky
     cd /var/www/lsky || echo "error, can't cd"
     wget -O lsky.zip https://"${LSKYPRO_RELEASE_URL}"/"${LSKY_VERSION}"/lsky-pro-"${LSKY_VERSION}".zip
-    unzip lsky.zip
+    unzip lsky.zip -q
     rm -rf lsky.zip
     chown -R www-data:www-data /var/www
 }
