@@ -165,12 +165,17 @@ setup_apache() {
 <VirtualHost *:80>
     ServerName ${domain}
     DocumentRoot /var/www/lsky/public
+    DirectoryIndex index.php
+
+    ErrorLog \${APACHE_LOG_DIR}/lsky_error.log
+    CustomLog \${APACHE_LOG_DIR}/lsky_access.log combined
+
     <Directory /var/www/lsky/public>
+        Options FollowSymLinks
         AllowOverride All
         Require all granted
     </Directory>
-    ErrorLog \${APACHE_LOG_DIR}/lsky_error.log
-    CustomLog \${APACHE_LOG_DIR}/lsky_access.log combined
+
 </VirtualHost>
 EOF
     a2ensite lsky.conf
