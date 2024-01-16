@@ -57,7 +57,7 @@ pre_check() {
     fi
 }
 
-pre_check
+
 
 install_soft() {
     (command -v apt >/dev/null 2>&1 && apt update && apt install "$*" -y) ||
@@ -70,6 +70,8 @@ install_base() {
     (install_soft curl wget git unzip gnupg)
 }
 
+install_base
+pre_check
 
 install_php() {
     echo -e "${green}开始安装PHP${plain}"
@@ -129,7 +131,6 @@ install_maraidb() {
 # TODO
 # 自动设置数据库，并将用户名、数据库名与密码打印出来
 
-install_base
 install_php
 install_apache
 install_maraidb
