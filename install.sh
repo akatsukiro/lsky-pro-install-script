@@ -155,7 +155,7 @@ download_lsky() {
     wget -O lsky.zip https://"${LSKYPRO_RELEASE_URL}"/"${LSKY_VERSION}"/lsky-pro-"${LSKY_VERSION}".zip
     unzip lsky.zip
     rm -rf lsky.zip
-    chown -R www:www /var/www/lsky
+    chown -R www-data:www-data /var/www
 }
 
 setup_apache() {
