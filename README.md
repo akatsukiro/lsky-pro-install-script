@@ -1,7 +1,7 @@
 # lsky-pro-install-script
 开源版 Lsky Pro 一键安装脚本
 
-随便糊的。目前还不可用。 
+随便糊的。目前仅在 Debian 12 x86_64 上测试通过。
 
 仅适用于纯净系统。
 
