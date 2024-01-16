@@ -60,8 +60,8 @@ pre_check() {
 
 
 install_soft() {
-    (command -v apt >/dev/null 2>&1 && apt update && apt install "$*" -y) ||
-    (command -v apt-get >/dev/null 2>&1 && apt-get update && apt-get install "$*" -y)
+    (command -v apt >/dev/null 2>&1 && apt update && apt install $* -y) ||
+    (command -v apt-get >/dev/null 2>&1 && apt-get update && apt-get install $* -y)
 }
 
 install_base() {
