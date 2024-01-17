@@ -50,7 +50,7 @@ pre_check() {
         LSKYPRO_RELEASE_URL="https://github.com/lsky-org/lsky-pro/releases/download"
         LSKY_VERSION=$(curl -s "https://api.github.com/repos/lsky-org/lsky-pro/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     else
-        LSKYPRO_RELEASE_URL="https://github.com/lsky-org/lsky-pro/releases/download"
+        LSKYPRO_RELEASE_URL="https://mirror.ghproxy.com/https://github.com/lsky-org/lsky-pro/releases/download"
         LSKY_VERSION=$(curl -s "https://api.github.com/repos/lsky-org/lsky-pro/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     fi
 }
