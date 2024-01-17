@@ -14,3 +14,8 @@ pre check 部分来自 [nezha monitor](https://github.com/naiba/nezha) 。非常
 ```bash
 curl -L https://raw.githubusercontent.com/akatsukiro/lsky-pro-install-script/master/install.sh  -o lsky.sh && chmod +x lsky.sh && sudo ./lsky.sh
 ```
+
+## 说明
+
+- 拉取 [Lsky Pro](https://github.com/lsky-org/lsky-pro) 最新 Release
+- 安装的环境为 LAMP( Apache2, MariaDB 10.6, PHP 8.1)
