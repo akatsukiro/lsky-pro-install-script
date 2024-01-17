@@ -5,6 +5,7 @@
 
 目前仅在 Debian 12 x86_64 纯净系统上测试通过。
 
+## 致谢
 
 pre check 部分来自 [nezha monitor](https://github.com/naiba/nezha) 。非常好用的探针，爱 ♥ 来自瓷器。
 
