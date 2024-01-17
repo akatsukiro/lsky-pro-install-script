@@ -47,11 +47,9 @@ pre_check() {
     fi
 
     if [[ -z "${CN}" ]]; then
-        # SCRIPT_RAW_URL="raw.githubusercontent.com/akastukiro/Lsky-Pro-install-script/master"
         LSKYPRO_RELEASE_URL="github.com/lsky-org/lsky-pro/releases/download"
         LSKY_VERSION=$(curl -s "https://api.github.com/repos/lsky-org/lsky-pro/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     else
-        # SCRIPT_RAW_URL=
         LSKYPRO_RELEASE_URL="github.com/lsky-org/lsky-pro/releases/download"
         LSKY_VERSION=$(curl -s "https://api.github.com/repos/lsky-org/lsky-pro/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     fi
