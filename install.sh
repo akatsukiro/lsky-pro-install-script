@@ -29,10 +29,13 @@ pre_check() {
         source /etc/os-release
         if [[ $ID == "debian" ]]; then
             systemFlag="1"
+            os_version=$VERSION_ID
         elif [[ $ID == "ubuntu" ]]; then
             systemFlag="2"
+            os_version=$VERSION_ID
         elif [[ $ID == "centos"|| $ID == "rocky" || $ID == "alma" || $ID_LIKE == "rhel" ]]; then
             systemFlag="3"
+            os_version=$VERSION_ID
         else
             echo "您的操作系统为 $PRETTY_NAME ，这是不支持的操作系统"
             exit 1
