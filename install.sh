@@ -24,6 +24,24 @@ pre_check() {
 
     echo os_arch: ${os_arch}
 
+    # check os type and os version
+    if [ -f /etc/os-release ]; then
+        source /etc/os-release
+        if [[ $ID == "debian" ]]; then
+            systemFlag="1"
+        elif [[ $ID == "ubuntu" ]]; then
+            systemFlag="2"
+        elif [[ $ID == "centos"|| $ID == "rocky" || $ID == "alma" || $ID_LIKE == "rhel" ]]; then
+            systemFlag="3"
+        else
+            echo "您的操作系统为 $ID ，这是不支持的操作系统"
+            exit 1
+        fi
+    else
+        echo "无法判断系统信息"
+        exit 1
+    fi
+
     ## China_IP
     if [[ -z "${CN}" ]]; then
         if [[ $(curl -m 10 -s https://ipapi.co/json | grep 'China') != "" ]]; then
