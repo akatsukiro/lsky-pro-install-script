@@ -122,23 +122,32 @@ install_apache() {
     if [[ $systemFlag == "1" ]]; then
         wget -O /usr/share/keyrings/apache2.gpg https://packages.sury.org/apache2/apt.gpg
         echo "deb [signed-by=/usr/share/keyrings/apache2.gpg] https://packages.sury.org/apache2/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/apache2.list
-        apt update && apt install apache2 -y
     elif [[ $systemFlag == "2" ]]; then
         add-apt-repository ppa:ondrej/apache2
+    fi
+
+    if [[ $systemFlag == "1" ]] || [[ $systemFlag == "2" ]]; then
         apt update && apt install apache2 -y
+        a2enconf php8.1-fpm
+        a2enmod proxy_fcgi
+        a2enmod headers
+        a2enmod http2
+        a2enmod remoteip
+        a2enmod ssl
+        a2enmod rewrite
+        a2enmod expires
+        systemctl restart apache2
+        systemctl restart php8.1-fpm
     elif [[ $systemFlag == "3" ]]; then
         dnf install httpd -y
-    fi
-    a2enconf php8.1-fpm
-    a2enmod proxy_fcgi
-    a2enmod headers
-    a2enmod http2
-    a2enmod remoteip
-    a2enmod ssl
-    a2enmod rewrite
-    a2enmod expires
-    systemctl restart apache2
-    systemctl restart php8.1-fpm
+        ln -s /etc/httpd/conf.d/php8.1-fpm.conf /etc/httpd/conf.modules.d/15-php8.1-fpm.conf
+        modules=("proxy_fcgi" "headers" "http2" "remoteip" "ssl" "rewrite" "expires")
+        for module in "${modules[@]}"; do
+            echo "LoadModule ${module}_module modules/mod_${module}.so" > /etc/httpd/conf.modules.d/10-${module}.conf
+        done
+        systemctl restart httpd
+        systemctl restart php-fpm.service
+fi
 }
 
 install_maraidb() {
