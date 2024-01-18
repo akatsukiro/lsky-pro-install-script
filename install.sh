@@ -96,9 +96,18 @@ install_php() {
     echo -e "${green}开始安装PHP${plain}"
     echo "默认安装php8.1"
     # add repo
-    wget -O /usr/share/keyrings/php.gpg https://packages.sury.org/php/apt.gpg
-    echo "deb [signed-by=/usr/share/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
-    apt update && apt install php8.1 php8.1-{cli,fpm,mbstring,mysql,bcmath,xml,xmlrpc,imagick,curl,gmp,imap,opcache,mailparse,soap,gd,zip} -y
+    if [[ $systemFlag == "1" ]]; then
+        wget -O /usr/share/keyrings/php.gpg https://packages.sury.org/php/apt.gpg
+        echo "deb [signed-by=/usr/share/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
+        apt update && apt install php8.1 php8.1-{cli,fpm,mbstring,mysql,bcmath,xml,xmlrpc,imagick,curl,gmp,imap,opcache,mailparse,soap,gd,zip} -y
+    elif [[ $systemFlag == "2" ]]; then
+        add-apt-repository ppa:ondrej/php
+        apt update && apt install php8.1 php8.1-{cli,fpm,mbstring,mysql,bcmath,xml,xmlrpc,imagick,curl,gmp,imap,opcache,mailparse,soap,gd,zip} -y
+    elif [[ $systemFlag == "3" ]]; then
+        dnf install https://rpms.remirepo.net/enterprise/remi-release-${os_version}.rpm -y
+        dnf module reset php -y
+        dnf module install php:remi-8.1 -y
+    fi
     sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php/8.1/fpm/php.ini
     sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 10M/' /etc/php/8.1/fpm/php.ini
     sed -i 's/post_max_size = 8M/post_max_size = 10M/' /etc/php/8.1/fpm/php.ini
