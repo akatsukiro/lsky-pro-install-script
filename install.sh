@@ -77,8 +77,7 @@ install_php() {
     # add repo
     wget -O /usr/share/keyrings/php.gpg https://packages.sury.org/php/apt.gpg
     echo "deb [signed-by=/usr/share/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
-    apt update
-    apt install php8.1 php8.1-{cli,fpm,mbstring,mysql,bcmath,xml,xmlrpc,imagick,curl,gmp,imap,opcache,mailparse,soap,gd,zip} -y
+    apt update && apt install php8.1 php8.1-{cli,fpm,mbstring,mysql,bcmath,xml,xmlrpc,imagick,curl,gmp,imap,opcache,mailparse,soap,gd,zip} -y
     sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php/8.1/fpm/php.ini
     sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 10M/' /etc/php/8.1/fpm/php.ini
     sed -i 's/post_max_size = 8M/post_max_size = 10M/' /etc/php/8.1/fpm/php.ini
@@ -90,8 +89,7 @@ install_apache() {
     echo -e "${green}开始安装Apache${plain}"
     wget -O /usr/share/keyrings/apache2.gpg https://packages.sury.org/apache2/apt.gpg
     echo "deb [signed-by=/usr/share/keyrings/apache2.gpg] https://packages.sury.org/apache2/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/apache2.list
-    apt update
-    apt install apache2 -y
+    apt update && apt install apache2 -y
     a2enconf php8.1-fpm
     a2enmod proxy_fcgi
     a2enmod headers
@@ -108,7 +106,7 @@ install_maraidb() {
     echo -e "${green}开始安装MariaDB${plain}"
     curl -sSL https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor > /usr/share/keyrings/mariadb.gpg
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/mariadb.gpg] https://mirror-cdn.xtom.com/mariadb/repo/10.6/debian $(lsb_release -sc) main" > /etc/apt/sources.list.d/mariadb.list
-    apt install mariadb-server -y
+    apt update && apt install mariadb-server -y
     read -e -r -p "是否快速配置MariaDB? [Y/n] 默认 Y(es)" input
     case $input in
         [yY][eE][sS] | [yY])
