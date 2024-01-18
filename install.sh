@@ -119,9 +119,16 @@ install_php() {
 
 install_apache() {
     echo -e "${green}开始安装Apache${plain}"
-    wget -O /usr/share/keyrings/apache2.gpg https://packages.sury.org/apache2/apt.gpg
-    echo "deb [signed-by=/usr/share/keyrings/apache2.gpg] https://packages.sury.org/apache2/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/apache2.list
-    apt update && apt install apache2 -y
+    if [[ $systemFlag == "1" ]]; then
+        wget -O /usr/share/keyrings/apache2.gpg https://packages.sury.org/apache2/apt.gpg
+        echo "deb [signed-by=/usr/share/keyrings/apache2.gpg] https://packages.sury.org/apache2/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/apache2.list
+        apt update && apt install apache2 -y
+    elif [[ $systemFlag == "2" ]]; then
+        add-apt-repository ppa:ondrej/apache2
+        apt update && apt install apache2 -y
+    elif [[ $systemFlag == "3" ]]; then
+        dnf install httpd -y
+    fi
     a2enconf php8.1-fpm
     a2enmod proxy_fcgi
     a2enmod headers
