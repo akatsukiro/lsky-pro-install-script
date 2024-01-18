@@ -80,7 +80,9 @@ pre_check() {
 
 install_soft() {
     (command -v apt >/dev/null 2>&1 && apt update && apt install $* -y) ||
-    (command -v apt-get >/dev/null 2>&1 && apt-get update && apt-get install $* -y)
+    (command -v apt-get >/dev/null 2>&1 && apt-get update && apt-get install $* -y) ||
+    (command -v yum >/dev/null 2>&1 && yum install $* -y) ||
+    (command -v dnf >/dev/null 2>&1 && dnf makecache && dnf install $* -y)
 }
 
 install_base() {
