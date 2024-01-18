@@ -159,9 +159,11 @@ fi
 
 install_maraidb() {
     echo -e "${green}开始安装MariaDB${plain}"
-    if [[ $systemFlag == "1" ]] || [[ $systemFlag == "2" ]]; then
+    if [[ $systemFlag == "1" && $os_version == "11" ]] || [[ $systemFlag == "2" ]]; then
         curl -sSL https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor > /usr/share/keyrings/mariadb.gpg
         echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/mariadb.gpg] https://mirror-cdn.xtom.com/mariadb/repo/10.6/debian $(lsb_release -sc) main" > /etc/apt/sources.list.d/mariadb.list
+        apt update && apt install mariadb-server -y
+    elif [[ $systemFlag == "1" && $os_version == "12" ]]; then
         apt update && apt install mariadb-server -y
     elif [[ $systemFlag == "3" ]]; then
         dnf install https://mirror-cdn.xtom.com/mariadb/yum/10.6/centos/${os_version}/x86_64/mariadb-release-10.6-1.el8.noarch.rpm -y
