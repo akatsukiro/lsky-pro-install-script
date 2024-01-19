@@ -35,7 +35,7 @@ pre_check() {
             os_version=$VERSION_ID
         elif [[ $ID == "centos"|| $ID == "rocky" || $ID == "alma" || $ID_LIKE == "rhel" ]]; then
             systemFlag="3"
-            os_version=$VERSION_ID
+            os_version=$(echo $VERSION_ID | awk -F '.' '{print $1}')
         else
             echo "您的操作系统为 $PRETTY_NAME ，这是不支持的操作系统"
             exit 1
