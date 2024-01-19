@@ -18,4 +18,7 @@ curl -L https://raw.githubusercontent.com/akatsukiro/lsky-pro-install-script/mas
 ## 说明
 
 - 拉取 [Lsky Pro](https://github.com/lsky-org/lsky-pro) 最新 Release
-- 安装的环境为 LAMP( Apache2, MariaDB 10.6, PHP 8.1)
+- 安装的环境为 LAMP
+    - Apache 2
+    - MariaDB (Debian 12: 10.11, Debian 11: 10.6)
+    - PHP 8.1
