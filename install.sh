@@ -2,6 +2,7 @@
 
 red='\033[0;31m'
 green='\033[0;32m'
+yellow='\033[0;33m'
 plain='\033[0m'
 export PATH=$PATH:/usr/local/bin
 
@@ -201,6 +202,7 @@ install_maraidb
 
 setup_database() {
     echo -e "${green}开始配置数据库${plain}"
+    echo -e "${yellow}请无比妥善保存以下信息${plain}"
     read -e -r -p "请输入数据库用户名: " db_user
     read -e -r -p "请输入数据库密码: " db_password
     read -e -r -p "请输入数据库名称: " db_name
