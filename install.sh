@@ -242,8 +242,13 @@ setup_apache() {
 
 </VirtualHost>
 EOF
-    a2ensite lsky.conf
-    systemctl restart apache2
+    if [[ $systemFlag == "1" ]] || [[ $systemFlag == "2" ]]; then
+        a2ensite lsky.conf
+        systemctl restart apache2
+    elif [[ $systemFlag == "3" ]]; then
+        systemctl restart php-fpm.service
+        systemctl restart httpd
+    fi
 }
 
 download_lsky
