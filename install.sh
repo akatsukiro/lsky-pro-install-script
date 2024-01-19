@@ -70,9 +70,15 @@ pre_check() {
     if [[ -z "${CN}" ]]; then
         LSKYPRO_RELEASE_URL="https://github.com/lsky-org/lsky-pro/releases/download"
         LSKY_VERSION=$(curl -s "https://api.github.com/repos/lsky-org/lsky-pro/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+        SURY_PACKAGE_URL="https://packages.sury.org"
+        REMI_RPMS_URL="https://rpms.remirepo.net"
+        MARIADB_PACKAGE_URL="https://mirrors.xtom.com/mariadb"
     else
         LSKYPRO_RELEASE_URL="https://mirror.ghproxy.com/https://github.com/lsky-org/lsky-pro/releases/download"
         LSKY_VERSION=$(curl -s "https://api.github.com/repos/lsky-org/lsky-pro/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+        SURY_PACKAGE_URL="https://mirror.nju.edu.cn/sury"
+        REMI_RPMS_URL="https://mirrors.aliyun.com/remi"
+        MARIADB_PACKAGE_URL="https://mirrors.aliyun.com/mariadb"
     fi
 }
 
@@ -97,12 +103,12 @@ install_php() {
     echo "默认安装php8.1"
     # add repo
     if [[ $systemFlag == "1" ]]; then
-        wget -O /usr/share/keyrings/php.gpg https://packages.sury.org/php/apt.gpg
-        echo "deb [signed-by=/usr/share/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
+        wget -O /usr/share/keyrings/php.gpg ${SURY_PACKAGE_URL}/php/apt.gpg
+        echo "deb [signed-by=/usr/share/keyrings/php.gpg] ${SURY_PACKAGE_URL}/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
     elif [[ $systemFlag == "2" ]]; then
         add-apt-repository ppa:ondrej/php
     elif [[ $systemFlag == "3" ]]; then
-        dnf install https://rpms.remirepo.net/enterprise/remi-release-${os_version}.rpm -y
+        dnf install ${REMI_RPMS_URL}/enterprise/remi-release-${os_version}.rpm -y
         dnf module reset php -y
         dnf module install php:remi-8.1 -y
     fi
@@ -127,8 +133,8 @@ install_php() {
 install_apache() {
     echo -e "${green}开始安装Apache${plain}"
     if [[ $systemFlag == "1" ]]; then
-        wget -O /usr/share/keyrings/apache2.gpg https://packages.sury.org/apache2/apt.gpg
-        echo "deb [signed-by=/usr/share/keyrings/apache2.gpg] https://packages.sury.org/apache2/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/apache2.list
+        wget -O /usr/share/keyrings/apache2.gpg ${SURY_PACKAGE_URL}/apache2/apt.gpg
+        echo "deb [signed-by=/usr/share/keyrings/apache2.gpg] ${SURY_PACKAGE_URL}/apache2/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/apache2.list
     elif [[ $systemFlag == "2" ]]; then
         add-apt-repository ppa:ondrej/apache2
     fi
@@ -161,12 +167,12 @@ install_maraidb() {
     echo -e "${green}开始安装MariaDB${plain}"
     if [[ $systemFlag == "1" && $os_version == "11" ]] || [[ $systemFlag == "2" ]]; then
         curl -sSL https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor > /usr/share/keyrings/mariadb.gpg
-        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/mariadb.gpg] https://mirror-cdn.xtom.com/mariadb/repo/10.6/debian $(lsb_release -sc) main" > /etc/apt/sources.list.d/mariadb.list
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/mariadb.gpg] ${MARIADB_PACKAGE_URL}/repo/10.6/debian $(lsb_release -sc) main" > /etc/apt/sources.list.d/mariadb.list
         apt update && apt install mariadb-server -y
     elif [[ $systemFlag == "1" && $os_version == "12" ]]; then
         apt update && apt install mariadb-server -y
     elif [[ $systemFlag == "3" ]]; then
-        dnf install https://mirror-cdn.xtom.com/mariadb/yum/10.6/centos/${os_version}/x86_64/mariadb-release-10.6-1.el8.noarch.rpm -y
+        dnf install ${MARIADB_PACKAGE_URL}/yum/10.6/centos/${os_version}/x86_64/mariadb-release-10.6-1.el8.noarch.rpm -y
         dnf install MariaDB-server MariaDB-client -y
     fi
     read -e -r -p "是否快速配置MariaDB? [Y/n] 默认 Y(es)" input
