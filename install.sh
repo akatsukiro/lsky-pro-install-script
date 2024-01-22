@@ -51,7 +51,7 @@ pre_check() {
             echo -e "${red}请注意：您的系统不受脚本支持${plain}"
         fi
     else
-        echo "无法判断系统信息"
+        echo -e "${red}无法判断系统信息，退出脚本${plain}"
         exit 1
     fi
 
