@@ -12,6 +12,8 @@ pre_check() {
     # check root
     [[ $EUID -ne 0 ]] && echo -e "${red}错误: 请使用root用户运行此脚本!${plain}" && exit 1
 
+    clear
+
     ## os_arch
     if [[ $(uname -m | grep 'x86_64') != "" ]]; then
         os_arch="amd64"
