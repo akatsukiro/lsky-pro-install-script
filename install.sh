@@ -213,8 +213,8 @@ setup_database() {
     echo -e "${green}开始配置数据库${plain}"
     echo -e "${yellow}请无比妥善保存以下信息${plain}"
     read -e -r -p "请输入数据库用户名: " db_user
-    read -e -r -p "请输入数据库密码: " db_password
     read -e -r -p "请输入数据库名称: " db_name
+    read -e -r -p "请输入数据库密码: " db_password
     mysql -e "CREATE DATABASE IF NOT EXISTS ${db_name} DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;"
     mysql -e "GRANT ALL PRIVILEGES ON ${db_name}.* TO '${db_user}'@'localhost' IDENTIFIED BY '${db_password}';"
     mysql -e "FLUSH PRIVILEGES;"
