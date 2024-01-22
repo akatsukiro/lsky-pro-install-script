@@ -41,7 +41,14 @@ pre_check() {
             os_version=$(echo $VERSION_ID | awk -F '.' '{print $1}')
         else
             echo "您的操作系统为 $PRETTY_NAME ，这是不支持的操作系统"
-            exit 1
+            echo -e "${red}如果您确信您的系统可以使用该脚本"
+            echo -e "如果您认为您的系统是Debian，请输入 1"
+            echo -e "如果您认为您的系统是Ubuntu，请输入 2"
+            echo -e "如果您认为您的系统是CentOS/RHEL，请输入 3${plain}"
+            read -e -r -p "请输入您的选择: " systemFlag
+            echo -e "${red}请输入您的系统版本，假如您的系统为 Ubuntu 22.04 请输入 “22”（无需双引号）${plain}"
+            read -e -r -p "请输入您的系统版本: " os_version
+            echo -e "${red}请注意：您的系统不受脚本支持${plain}"
         fi
     else
         echo "无法判断系统信息"
