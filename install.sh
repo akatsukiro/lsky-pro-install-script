@@ -199,21 +199,35 @@ install_maraidb() {
         dnf install ${MARIADB_PACKAGE_URL}/yum/10.6/centos/${os_version}/x86_64/mariadb-release-10.6-1.el8.noarch.rpm -y
         dnf install MariaDB-server MariaDB-client -y
     fi
-    read -e -r -p "是否快速配置MariaDB? [Y/n] 默认 Y(es)" input
-    case $input in
-        [yY][eE][sS] | [yY])
-            echo "开始快速配置MariaDB"
-            mysql_secure_installation
-        ;;
+    if [[ $autoFlag == "0" ]]; then
+        read -e -r -p "是否快速配置MariaDB? [Y/n] 默认 Y(es)" input
+        case $input in
+            [yY][eE][sS] | [yY])
+                echo "开始快速配置MariaDB"
+                mysql_secure_installation
+            ;;
 
-        [nN][oO] | [nN])
-            echo "不快速配置MariaDB"
-        ;;
-        *)
-            echo "开始快速配置MariaDB"
-            mysql_secure_installation
-        ;;
-    esac
+            [nN][oO] | [nN])
+                echo "不快速配置MariaDB"
+            ;;
+            *)
+                echo "开始快速配置MariaDB"
+                mysql_secure_installation
+            ;;
+        esac
+    else
+        PWD = "$(openssl rand -base64 32 | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
+        mysql_secure_installation <<EOF
+
+y
+$PWD
+$PWD
+y
+y
+y
+y
+EOF
+    fi
 }
 
 install_php
