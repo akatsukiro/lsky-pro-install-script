@@ -206,7 +206,6 @@ install_maraidb() {
                 echo "开始快速配置MariaDB"
                 mysql_secure_installation
             ;;
-
             [nN][oO] | [nN])
                 echo "不快速配置MariaDB"
             ;;
