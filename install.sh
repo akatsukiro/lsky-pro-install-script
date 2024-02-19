@@ -108,6 +108,20 @@ install_base() {
 install_base
 pre_check
 
+echo -e "${yellow}是否进行全自动安装？${plain}"
+read -e -r -p "[Y/n]:" autoFlag
+case $autoFlag in
+    [yY][eE][sS] | [yY])
+        autoFlag="1"
+        ;;
+    [nN][oO] | [nN])
+        autoFlag="0"
+        ;;
+    *)
+        autoFlag="1"
+        ;;
+esac
+
 install_php() {
     echo -e "${green}开始安装PHP${plain}"
     echo "默认安装php8.1"
