@@ -305,4 +305,9 @@ download_lsky
 setup_apache
 
 echo -e "${green}安装完成${plain}"
-echo -e "${green}请访问 http://${domain} 完成后续配置 ${plain}"
+
+if [[ $autoFlag == "0" ]]; then
+    echo -e "${green}请访问 http://${domain} 完成后续配置 ${plain}"
+else
+    touch /var/www/lsky/install.lock
+fi
