@@ -236,21 +236,26 @@ install_maraidb
 setup_database() {
     echo -e "${green}开始配置数据库${plain}"
     echo -e "${yellow}请无比妥善保存以下信息${plain}"
-    echo "自动生成数据库信息请输入1，手动输入请输入2，其他情况自动生成"
-    read -e -r -p "请输入您的选择: " dbFlag
-    if [[ $dbFlag == "1" ]]; then
-        db_user="lsky_$(openssl rand -base64 12 | tr -dc 'a-z0-9' | fold -w 8 | head -n 1)"
-        db_name="lsky_$(openssl rand -base64 12 | tr -dc 'a-z0-9' | fold -w 8 | head -n 1)"
-        db_password="$(openssl rand -base64 32 | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
-    elif [[ $dbFlag == "2" ]]; then
-        read -e -r -p "请输入数据库用户名: " db_user
-        read -e -r -p "请输入数据库名称: " db_name
-        read -e -r -p "请输入数据库密码: " db_password
+    if [[autoFlag ==  "0" ]]
+        echo "自动生成数据库信息请输入1，手动输入请输入2，其他情况自动生成"
+        read -e -r -p "请输入您的选择: " dbFlag
+        if [[ $dbFlag == "1" ]]; then
+            db_user="lsky_$(openssl rand -base64 12 | tr -dc 'a-z0-9' | fold -w 8 | head -n 1)"
+            db_name="lsky_$(openssl rand -base64 12 | tr -dc 'a-z0-9' | fold -w 8 | head -n 1)"
+            db_password="$(openssl rand -base64 32 | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
+        elif [[ $dbFlag == "2" ]]; then
+            read -e -r -p "请输入数据库用户名: " db_user
+            read -e -r -p "请输入数据库名称: " db_name
+            read -e -r -p "请输入数据库密码: " db_password
+        else
+            db_user="lsky_$(openssl rand -base64 12 | tr -dc 'a-z0-9' | fold -w 8 | head -n 1)"
+            db_name="lsky_$(openssl rand -base64 12 | tr -dc 'a-z0-9' | fold -w 8 | head -n 1)"
+            db_password="$(openssl rand -base64 32 | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
+        fi
     else
         db_user="lsky_$(openssl rand -base64 12 | tr -dc 'a-z0-9' | fold -w 8 | head -n 1)"
         db_name="lsky_$(openssl rand -base64 12 | tr -dc 'a-z0-9' | fold -w 8 | head -n 1)"
         db_password="$(openssl rand -base64 32 | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
-    fi
     echo -e "${yellow}数据库用户名: ${db_user}${plain}"
     echo -e "${yellow}数据库名称: ${db_name}${plain}"
     echo -e "${yellow}数据库密码: ${db_password}${plain}"
