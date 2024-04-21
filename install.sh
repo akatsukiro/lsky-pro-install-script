@@ -102,7 +102,7 @@ install_soft() {
 install_base() {
     echo -e "${green}开始安装基础组件${plain}"
     (command -v git >/dev/null 2>&1 && command -v curl >/dev/null 2>&1 && command -v wget >/dev/null 2>&1 && command -v unzip >/dev/null 2>&1 && command -v getenforce >/dev/null 2>&1 && command -v gnupg >/dev/null 2>&1 && command -v lsb_release >/dev/null) ||
-    (install_soft curl wget git unzip gnupg lsb-release ca-certificates)
+    (install_soft curl wget git unzip gnupg lsb-release apt-transport-https ca-certificates)
 }
 
 install_base
